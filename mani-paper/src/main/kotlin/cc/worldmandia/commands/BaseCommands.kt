@@ -4,7 +4,6 @@ import cc.worldmandia.PaperPlugin
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import net.kyori.adventure.text.Component
-import org.bukkit.command.CommandSender
 
 class BaseCommands(
     plugin: PaperPlugin
@@ -13,9 +12,8 @@ class BaseCommands(
         commandTree("maniconomy") {
             withAliases("mic")
             withPermission("maniconomy.admin")
-            anyExecutor { _, args ->
-                val commandSender: CommandSender = args[0] as CommandSender
-                commandSender.sendMessage(Component.text(
+            anyExecutor { executor, _ ->
+                executor.sendMessage(Component.text(
                     """
                         ManiConomy Help
                         /mic reload
