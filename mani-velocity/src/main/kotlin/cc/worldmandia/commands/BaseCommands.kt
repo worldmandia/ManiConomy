@@ -1,12 +1,12 @@
 package cc.worldmandia.commands
 
-import com.velocitypowered.api.proxy.ProxyServer
+import cc.worldmandia.VelocityPlugin
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import net.kyori.adventure.text.Component
 
 class BaseCommands(
-    plugin: ProxyServer
+    plugin: VelocityPlugin
 ) {
     init {
         commandTree("maniconomy") {

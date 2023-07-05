@@ -42,7 +42,7 @@ class VelocityPlugin {
     @Subscribe
     fun onProxyInitialization(event: ProxyInitializeEvent) {
         CommandAPI.onLoad(CommandAPIVelocityConfig(server))
-        BaseCommands(server)
+        BaseCommands(this)
 
         ServiceRegistry.INSTANCE.registerService(
             EconomyProvider::class.java,
