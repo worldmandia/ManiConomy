@@ -1,8 +1,9 @@
 package cc.worldmandia.database.sql
 
+import cc.worldmandia.database.DataBase
 import cc.worldmandia.database.DataBaseAPI
 
-class MariaDBAPI<T>(): DataBaseAPI<T> {
+class MariaDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbCollection: String): DataBaseAPI<T> {
     override fun getObject(fieldId: String, fieldValue: Any): T? {
         TODO("Not yet implemented")
     }

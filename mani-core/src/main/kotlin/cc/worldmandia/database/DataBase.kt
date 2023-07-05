@@ -1,16 +1,17 @@
 package cc.worldmandia.database
 
 import cc.worldmandia.database.nosql.MongoDBAPI
+import cc.worldmandia.database.sql.MariaDBAPI
 
 
 class DataBase<T>(var dbUrlOrPath: String, type: DataBaseType, tClass: Class<T>, dbName: String, dbCollection: String) {
-    lateinit var dataBaseAPI: DataBaseAPI<T>
+    var dataBaseAPI: DataBaseAPI<T>
 
     init {
-        when (type) {
-            //DataBaseType.LOCAL -> dataBaseAPI = JsonDBAPI(this, tClass)
-            DataBaseType.MONGO -> dataBaseAPI = MongoDBAPI(this, tClass, dbName, dbCollection)
-            else -> {}
+        dataBaseAPI = when (type) {
+            DataBaseType.MONGO -> MongoDBAPI(this, tClass, dbName, dbCollection)
+            DataBaseType.MARIADB -> MariaDBAPI(this, tClass, dbName, dbCollection)
+            else -> MongoDBAPI(this, tClass, dbName, dbCollection)
         }
     }
 }
