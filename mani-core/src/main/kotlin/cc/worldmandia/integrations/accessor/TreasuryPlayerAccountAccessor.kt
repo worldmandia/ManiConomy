@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture
 class TreasuryPlayerAccountAccessor : PlayerAccountAccessor() {
     override fun getOrCreate(context: PlayerAccountCreateContext): CompletableFuture<PlayerAccount> {
         return CompletableFuture<PlayerAccount>().completeAsync {
-            TreasuryPlayerAccount()
+            TreasuryPlayerAccount(context)
         }
     }
 }

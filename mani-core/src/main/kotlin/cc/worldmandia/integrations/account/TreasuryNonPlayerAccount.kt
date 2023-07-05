@@ -4,7 +4,7 @@ import me.lokka30.treasury.api.common.NamespacedKey
 import me.lokka30.treasury.api.common.misc.TriState
 import me.lokka30.treasury.api.economy.account.AccountPermission
 import me.lokka30.treasury.api.economy.account.NonPlayerAccount
-import me.lokka30.treasury.api.economy.account.PlayerAccount
+import me.lokka30.treasury.api.economy.account.accessor.NonPlayerAccountAccessor
 import me.lokka30.treasury.api.economy.currency.Currency
 import me.lokka30.treasury.api.economy.transaction.EconomyTransaction
 import java.math.BigDecimal
@@ -12,7 +12,9 @@ import java.time.temporal.Temporal
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-class TreasuryNonPlayerAccount : NonPlayerAccount {
+class TreasuryNonPlayerAccount(
+    private val context: NonPlayerAccountAccessor.NonPlayerAccountCreateContext
+) : NonPlayerAccount {
     override fun getName(): Optional<String> {
         TODO("Not yet implemented")
     }
@@ -73,7 +75,7 @@ class TreasuryNonPlayerAccount : NonPlayerAccount {
     }
 
     override fun identifier(): NamespacedKey {
-        TODO("Not yet implemented")
+        return context.identifier
     }
 
 }

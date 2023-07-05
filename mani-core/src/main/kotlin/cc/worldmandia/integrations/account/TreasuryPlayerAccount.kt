@@ -1,6 +1,7 @@
 package cc.worldmandia.integrations.account
 
 import me.lokka30.treasury.api.economy.account.PlayerAccount
+import me.lokka30.treasury.api.economy.account.accessor.PlayerAccountAccessor
 import me.lokka30.treasury.api.economy.currency.Currency
 import me.lokka30.treasury.api.economy.transaction.EconomyTransaction
 import java.math.BigDecimal
@@ -8,7 +9,9 @@ import java.time.temporal.Temporal
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-class TreasuryPlayerAccount : PlayerAccount {
+class TreasuryPlayerAccount(
+    private val context: PlayerAccountAccessor.PlayerAccountCreateContext
+) : PlayerAccount {
     override fun getName(): Optional<String> {
         TODO("Not yet implemented")
     }
@@ -38,6 +41,6 @@ class TreasuryPlayerAccount : PlayerAccount {
     }
 
     override fun identifier(): UUID {
-        TODO("Not yet implemented")
+        return context.uniqueId
     }
 }
