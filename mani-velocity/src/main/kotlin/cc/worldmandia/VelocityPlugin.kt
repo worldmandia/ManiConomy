@@ -10,6 +10,8 @@ import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
+import dev.jorel.commandapi.CommandAPI
+import dev.jorel.commandapi.CommandAPIVelocityConfig
 import me.lokka30.treasury.api.common.service.ServicePriority
 import me.lokka30.treasury.api.common.service.ServiceRegistry
 import me.lokka30.treasury.api.economy.EconomyProvider
@@ -39,6 +41,7 @@ class VelocityPlugin {
 
     @Subscribe
     fun onProxyInitialization(event: ProxyInitializeEvent) {
+        CommandAPI.onLoad(CommandAPIVelocityConfig(server))
         BaseCommands(server)
 
         ServiceRegistry.INSTANCE.registerService(
@@ -49,6 +52,7 @@ class VelocityPlugin {
             "ManiConomy velocity",
             ServicePriority.NORMAL
         )
+        logger.info("Registered Economy Provider")
         //server.eventManager.register(this, listener) register event
     }
 }

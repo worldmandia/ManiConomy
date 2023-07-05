@@ -3,10 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val pluginName = "${properties["plugin-name"]}-velocity"
 
+plugins {
+    kotlin("kapt")
+}
+
 dependencies {
     implementation(project(":mani-core", configuration = "shadow"))
     compileOnly("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
-    annotationProcessor("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
+    kapt("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
     implementation("dev.jorel:commandapi-velocity-shade:9.0.4-SNAPSHOT")
     implementation("dev.jorel:commandapi-velocity-kotlin:9.0.4-SNAPSHOT")
 }

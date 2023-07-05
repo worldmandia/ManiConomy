@@ -4,6 +4,4 @@ class TreasuryUtils(
     val currency: MutableSet<TreasuryCurrency>
 ) {
 
-
-
 }
