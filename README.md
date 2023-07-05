@@ -1,0 +1,2 @@
+# ManiConomy
+Universal economy plugin
