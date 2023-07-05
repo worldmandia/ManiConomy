@@ -1,6 +1,7 @@
 package cc.worldmandia
 
 import cc.worldmandia.commands.BaseCommands
+import cc.worldmandia.integrations.TreasuryCurrency
 import cc.worldmandia.integrations.TreasuryProvider
 import cc.worldmandia.integrations.TreasuryUtils
 import dev.jorel.commandapi.CommandAPI
@@ -9,6 +10,7 @@ import me.lokka30.treasury.api.common.service.ServicePriority
 import me.lokka30.treasury.api.common.service.ServiceRegistry
 import me.lokka30.treasury.api.economy.EconomyProvider
 import org.bukkit.plugin.java.JavaPlugin
+import java.math.BigDecimal
 
 
 class PaperPlugin : JavaPlugin() {
@@ -23,6 +25,7 @@ class PaperPlugin : JavaPlugin() {
         ServiceRegistry.INSTANCE.registerService(
             EconomyProvider::class.java,
             TreasuryProvider(TreasuryUtils(mutableSetOf(
+                TreasuryCurrency("test", true, mutableMapOf(), BigDecimal(100), 3, BigDecimal(0.5), "$") // for test
                 // TODO From config Currencies
             ))),
             this.name,
