@@ -1,0 +1,14 @@
+name: "${pluginName}"
+version: "${version}"
+load: STARTUP
+description: "Economy provider plugin"
+main: cc.worldmandia.PaperPlugin
+api-version: "1.19"
+authors: [ mani123 ]
+website: https://worldmandia.cc/
+prefix: MIC
+dependencies:
+  server:
+    treasury:
+      load: BEFORE
+      required: true
