@@ -4,7 +4,7 @@ import cc.worldmandia.database.nosql.MongoDBAPI
 
 
 class DataBase<T>(var dbUrlOrPath: String, type: DataBaseType, tClass: Class<T>, dbName: String, dbCollection: String) {
-    private var dataBaseAPI: DataBaseAPI<T>? = null
+    lateinit var dataBaseAPI: DataBaseAPI<T>
 
     init {
         when (type) {

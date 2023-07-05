@@ -1,6 +1,9 @@
 package cc.worldmandia
 
 import cc.worldmandia.commands.BaseCommands
+import cc.worldmandia.database.DataBase
+import cc.worldmandia.database.DataBaseType
+import cc.worldmandia.database.objects.TreasuryDBUser
 import cc.worldmandia.integrations.TreasuryCurrency
 import cc.worldmandia.integrations.TreasuryProvider
 import cc.worldmandia.integrations.TreasuryUtils
@@ -27,7 +30,7 @@ class PaperPlugin : JavaPlugin() {
             TreasuryProvider(TreasuryUtils(mutableSetOf(
                 TreasuryCurrency("test", true, mutableMapOf(), BigDecimal(100), 3, BigDecimal(0.5), "$") // for test
                 // TODO From config Currencies
-            ))),
+            ), DataBase("", DataBaseType.MONGO, TreasuryDBUser::class.java, "", "").dataBaseAPI)),
             this.name,
             ServicePriority.NORMAL
         )

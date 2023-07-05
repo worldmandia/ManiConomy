@@ -1,6 +1,9 @@
 package cc.worldmandia
 
 import cc.worldmandia.commands.BaseCommands
+import cc.worldmandia.database.DataBase
+import cc.worldmandia.database.DataBaseType
+import cc.worldmandia.database.objects.TreasuryDBUser
 import cc.worldmandia.integrations.TreasuryProvider
 import cc.worldmandia.integrations.TreasuryUtils
 import com.google.inject.Inject
@@ -48,7 +51,7 @@ class VelocityPlugin {
             EconomyProvider::class.java,
             TreasuryProvider(TreasuryUtils(mutableSetOf(
                 // TODO From config Currencies
-            ))),
+            ), DataBase("", DataBaseType.MONGO, TreasuryDBUser::class.java, "", "").dataBaseAPI)),
             "ManiConomy velocity",
             ServicePriority.NORMAL
         )
