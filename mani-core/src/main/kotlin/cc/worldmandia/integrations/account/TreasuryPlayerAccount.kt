@@ -1,5 +1,6 @@
 package cc.worldmandia.integrations.account
 
+import cc.worldmandia.integrations.TreasuryUtils
 import me.lokka30.treasury.api.economy.account.PlayerAccount
 import me.lokka30.treasury.api.economy.account.accessor.PlayerAccountAccessor
 import me.lokka30.treasury.api.economy.currency.Currency
@@ -11,10 +12,11 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 class TreasuryPlayerAccount(
-    private val context: PlayerAccountAccessor.PlayerAccountCreateContext
+    private val context: PlayerAccountAccessor.PlayerAccountCreateContext,
+    private val utils: TreasuryUtils
 ) : PlayerAccount {
     override fun getName(): Optional<String> {
-        TODO("Not yet implemented")
+        return Optional.ofNullable(utils.userDataBase.getObject("uuid", context.uniqueId.toString())?.name)
     }
 
     override fun retrieveBalance(currency: Currency): CompletableFuture<BigDecimal> {

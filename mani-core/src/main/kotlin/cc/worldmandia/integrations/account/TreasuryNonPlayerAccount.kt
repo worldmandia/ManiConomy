@@ -1,5 +1,6 @@
 package cc.worldmandia.integrations.account
 
+import cc.worldmandia.integrations.TreasuryUtils
 import me.lokka30.treasury.api.common.NamespacedKey
 import me.lokka30.treasury.api.common.misc.TriState
 import me.lokka30.treasury.api.economy.account.AccountPermission
@@ -14,10 +15,11 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 class TreasuryNonPlayerAccount(
-    private val context: NonPlayerAccountAccessor.NonPlayerAccountCreateContext
+    private val context: NonPlayerAccountAccessor.NonPlayerAccountCreateContext,
+    private val utils: TreasuryUtils
 ) : NonPlayerAccount {
     override fun getName(): Optional<String> {
-        TODO("Not yet implemented")
+        return Optional.ofNullable(context.name)
     }
 
     override fun setName(name: String?): CompletableFuture<Boolean> {

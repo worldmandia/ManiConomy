@@ -14,7 +14,7 @@ class TreasuryProvider(
     private val utils: TreasuryUtils
 ) : EconomyProvider {
     override fun accountAccessor(): AccountAccessor {
-        return TreasuryAccessor()
+        return TreasuryAccessor(utils)
     }
 
     override fun hasAccount(accountData: AccountData): CompletableFuture<Boolean> {
