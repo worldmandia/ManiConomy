@@ -1,6 +1,7 @@
 plugins {
     kotlin("plugin.lombok") version "1.8.22"
     id("io.freefair.lombok") version "5.3.0"
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 dependencies {
@@ -14,6 +15,8 @@ dependencies {
     implementation("com.h2database:h2:2.1.214")
     // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4")
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-json-jvm
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.1")
 }
 
 kotlinLombok {

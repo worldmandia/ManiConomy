@@ -6,6 +6,11 @@ import cc.worldmandia.database.DataBaseAPI
 class JsonDBAPI<T>(
     dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbCollection: String
 ) : DataBaseAPI<T> {
+
+    init {
+
+    }
+
     override fun getObject(fieldId: String, fieldValue: Any): T? {
         TODO("Not yet implemented")
     }

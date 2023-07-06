@@ -8,10 +8,8 @@ import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
 import org.bson.Document
-import org.bson.codecs.configuration.CodecProvider
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
-import org.bson.codecs.configuration.CodecRegistry
 import org.bson.codecs.pojo.PojoCodecProvider
 
 
@@ -20,12 +18,13 @@ class MongoDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
     private val collection: MongoCollection<T>
 
     init {
-        val pojoCodecProvider: CodecProvider = PojoCodecProvider.builder().automatic(true).build()
-        val pojoCodecRegistry: CodecRegistry =
-            fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider))
-        mongoClient = MongoClients.create(dataBase.dbUrlOrPath)
-        collection = mongoClient.getDatabase(dbName).withCodecRegistry(pojoCodecRegistry)
-            .getCollection(dbCollection, tClass)
+        mongoClient = MongoClients.create("mongodb://${dataBase.user}:${dataBase.pass}@${dataBase.dbUrlOrPath}")
+        collection = mongoClient.getDatabase(dbName).withCodecRegistry(
+            fromRegistries(
+                getDefaultCodecRegistry(),
+                fromProviders(PojoCodecProvider.builder().automatic(true).build())
+            )
+        ).getCollection(dbCollection, tClass)
     }
 
     override fun getObject(fieldId: String, fieldValue: Any): T? {
@@ -37,7 +36,7 @@ class MongoDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
     }
 
     override fun removeObject(fieldId: String, fieldValue: Any): Boolean {
-       return collection.deleteOne(Filters.eq(fieldId, fieldValue)).wasAcknowledged()
+        return collection.deleteOne(Filters.eq(fieldId, fieldValue)).wasAcknowledged()
     }
 
     override fun createObject(newObject: T): Boolean {
