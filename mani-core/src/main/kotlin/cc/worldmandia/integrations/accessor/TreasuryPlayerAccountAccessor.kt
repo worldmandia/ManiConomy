@@ -5,7 +5,6 @@ import cc.worldmandia.integrations.TreasuryUtils
 import cc.worldmandia.integrations.account.TreasuryPlayerAccount
 import me.lokka30.treasury.api.economy.account.PlayerAccount
 import me.lokka30.treasury.api.economy.account.accessor.PlayerAccountAccessor
-import org.bson.types.ObjectId
 import java.util.concurrent.CompletableFuture
 
 class TreasuryPlayerAccountAccessor(
@@ -16,7 +15,7 @@ class TreasuryPlayerAccountAccessor(
             if (!utils.userDataBase.contains("uuid", context.uniqueId.toString())) {
                 utils.userDataBase.createObject(
                     TreasuryDBUser(
-                        ObjectId.get().toString(),
+                        0,
                         "${context.uniqueId}-maniconomy",
                         context.uniqueId.toString(),
                         listOf()

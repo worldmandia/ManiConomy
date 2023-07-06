@@ -7,8 +7,11 @@ api-version: "1.19"
 authors: [ mani123 ]
 website: https://worldmandia.cc/
 prefix: MIC
+
+folia-supported: true
+
 dependencies:
   server:
-    treasury:
+    Treasury:
       load: BEFORE
       required: true

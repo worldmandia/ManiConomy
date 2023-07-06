@@ -1,20 +1,20 @@
 package cc.worldmandia.database.objects
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import lombok.AllArgsConstructor
 import lombok.NoArgsConstructor
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 class TreasuryDBCurrency(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var objectId: String = "",
-    var currencyId: String = "",
-    var accountId: String = "",
-    var balance: String = "-1"
+    var objectId: Long = 0,
+    @Column(columnDefinition = "VARCHAR(255)")
+    var currencyId: String? = null,
+    @Column(columnDefinition = "VARCHAR(255)")
+    var accountId: String? = null,
+    @Column(columnDefinition = "VARCHAR(255)")
+    var balance: String? = null
 )

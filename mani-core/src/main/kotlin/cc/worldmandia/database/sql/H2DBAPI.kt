@@ -2,6 +2,7 @@ package cc.worldmandia.database.sql
 
 import cc.worldmandia.database.DataBase
 import cc.worldmandia.database.DataBaseAPI
+import cc.worldmandia.database.objects.TreasuryDBCurrency
 import org.hibernate.Session
 import org.hibernate.SessionFactory
 import org.hibernate.boot.MetadataSources
@@ -18,7 +19,7 @@ class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: St
         val hibernateProperties = mapOf(
             Environment.DIALECT to "org.hibernate.dialect.H2Dialect",
             Environment.DRIVER to "org.h2.Driver",
-            Environment.URL to "jdbc:h2:${dataBase.dbUrlOrPath}/$dbName;DB_CLOSE_DELAY=-1;MVCC=true",
+            Environment.URL to "jdbc:h2:/${dataBase.dbUrlOrPath}/$dbName;DB_CLOSE_DELAY=-1",
             Environment.SHOW_SQL to "true",
             Environment.HBM2DDL_AUTO to "create-drop"
         )
@@ -28,6 +29,8 @@ class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: St
             .build()
 
         val metadata = MetadataSources(serviceRegistry)
+            .addAnnotatedClass(TreasuryDBCurrency::class.java)
+            //.addAnnotatedClass(TreasuryDBTransactionHistory::class.java)
             .addAnnotatedClass(tClass)
             .buildMetadata()
 
