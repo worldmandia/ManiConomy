@@ -19,7 +19,6 @@ class TreasuryPlayerAccountAccessor(
                         ObjectId.get().toString(),
                         "${context.uniqueId}-maniconomy",
                         context.uniqueId.toString(),
-                        "",
                         listOf()
                     )
                 )

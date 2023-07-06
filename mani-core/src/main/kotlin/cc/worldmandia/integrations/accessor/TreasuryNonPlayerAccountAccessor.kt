@@ -18,7 +18,8 @@ class TreasuryNonPlayerAccountAccessor(
                     TreasuryDBBank(
                         ObjectId.get().toString(),
                         context.identifier.toString(),
-                        context.name
+                        context.name,
+                        listOf()
                     )
                 )
             }
