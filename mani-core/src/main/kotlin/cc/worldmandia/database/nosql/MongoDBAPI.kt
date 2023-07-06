@@ -7,8 +7,6 @@ import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
-import com.mongodb.client.result.InsertOneResult
-import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.codecs.configuration.CodecProvider
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
@@ -35,21 +33,19 @@ class MongoDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
     }
 
     override fun getAllObjects(): Set<T> {
-        TODO("Not yet implemented")
+        return collection.find().toHashSet()
     }
 
     override fun removeObject(fieldId: String, fieldValue: Any): Boolean {
-        TODO("Not yet implemented")
+       return collection.deleteOne(Filters.eq(fieldId, fieldValue)).wasAcknowledged()
     }
 
     override fun createObject(newObject: T): Boolean {
-        val result: InsertOneResult = collection.insertOne(newObject)
-        return result.wasAcknowledged()
+        return collection.insertOne(newObject).wasAcknowledged()
     }
 
     override fun replaceObject(fieldId: String, fieldValue: Any, updateData: T): Boolean {
-        val updateResult: UpdateResult = collection.replaceOne(Document(fieldId, fieldValue), updateData)
-        return updateResult.wasAcknowledged()
+        return collection.replaceOne(Document(fieldId, fieldValue), updateData).wasAcknowledged()
     }
 
     override fun contains(fieldId: String, fieldValue: Any): Boolean {
