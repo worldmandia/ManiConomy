@@ -8,7 +8,15 @@ class MariaDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
         TODO("Not yet implemented")
     }
 
+    override fun getAllObjects(): Set<T> {
+        TODO("Not yet implemented")
+    }
+
     override fun contains(fieldId: String, fieldValue: Any): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeObject(fieldId: String, fieldValue: Any): Boolean {
         TODO("Not yet implemented")
     }
 
@@ -19,4 +27,5 @@ class MariaDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
     override fun createObject(newObject: T): Boolean {
         TODO("Not yet implemented")
     }
+
 }

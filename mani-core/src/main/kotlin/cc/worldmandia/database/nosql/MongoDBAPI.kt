@@ -39,6 +39,14 @@ class MongoDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
         return null
     }
 
+    override fun getAllObjects(): Set<T> {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeObject(fieldId: String, fieldValue: Any): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override fun createObject(newObject: T): Boolean {
         val result: InsertOneResult = collection.insertOne(newObject)
         return result.wasAcknowledged()
