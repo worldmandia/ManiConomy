@@ -11,10 +11,8 @@ class TreasuryDBUser(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var objectId: Long = 0,
-    @Column(columnDefinition = "VARCHAR(255)")
-    var name: String? = null,
-    @Column(columnDefinition = "VARCHAR(255)")
-    var uuid: String? = null,
+    var name: String = "",
+    var uuid: String = "",
     @OneToMany(cascade = [CascadeType.ALL])
     var currency: List<TreasuryDBCurrency> = listOf()
 ) {

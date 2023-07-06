@@ -31,3 +31,7 @@ tasks {
 tasks.shadowJar {
     relocate("dev.jorel.commandapi", "cc.worldmandia.commandapi")
 }
+
+kapt {
+    keepJavacAnnotationProcessors = true
+}

@@ -1,11 +1,18 @@
 package cc.worldmandia.database.objects
 
-import org.bson.codecs.pojo.annotations.BsonId
+import jakarta.persistence.*
+import lombok.AllArgsConstructor
+import lombok.NoArgsConstructor
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 class TreasuryDBBank(
-    @BsonId
-    var objectId: String,
-    var identifier: String,
-    var name: String?,
-    var currency: List<TreasuryDBCurrency>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var objectId: Long = 0,
+    var identifier: String = "",
+    var name: String? = null,
+    @OneToMany(cascade = [CascadeType.ALL])
+    var currency: List<TreasuryDBCurrency> = listOf()
 )

@@ -1,6 +1,6 @@
 plugins {
-    kotlin("plugin.lombok") version "1.8.22"
-    id("io.freefair.lombok") version "5.3.0"
+    kotlin("plugin.lombok") version "1.9.0"
+    id("io.freefair.lombok") version "8.1.0"
     kotlin("plugin.serialization") version "1.9.0"
 }
 
@@ -19,6 +19,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.1")
 }
 
-kotlinLombok {
-    lombokConfigurationFile(file("lombok.config"))
-}
+//kotlinLombok {
+//    lombokConfigurationFile(file("lombok.config"))
+//}
