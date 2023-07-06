@@ -5,7 +5,7 @@ import cc.worldmandia.database.nosql.MongoDBAPI
 import cc.worldmandia.database.sql.SQLDBAPI
 
 
-class DataBase<T>(var dbUrlOrPath: String, type: DataBaseType, tClass: Class<T>, dbName: String, dbCollection: String) {
+class DataBase<T>(var dbUrlOrPath: String, var pluginDirectory: String, var user: String, var pass: String, type: DataBaseType, tClass: Class<T>, dbName: String, dbCollection: String) {
     var dataBaseAPI: DataBaseAPI<T>
 
     init {

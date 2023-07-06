@@ -41,11 +41,11 @@ class MongoDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
     }
 
     override fun createObject(newObject: T): Boolean {
-        return collection.insertOne(newObject).wasAcknowledged()
+        return collection.insertOne(newObject!!).wasAcknowledged()
     }
 
     override fun replaceObject(fieldId: String, fieldValue: Any, updateData: T): Boolean {
-        return collection.replaceOne(Document(fieldId, fieldValue), updateData).wasAcknowledged()
+        return collection.replaceOne(Document(fieldId, fieldValue), updateData!!).wasAcknowledged()
     }
 
     override fun contains(fieldId: String, fieldValue: Any): Boolean {
