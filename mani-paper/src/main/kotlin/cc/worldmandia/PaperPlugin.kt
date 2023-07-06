@@ -25,16 +25,17 @@ import java.math.BigDecimal
 
 class PaperPlugin : JavaPlugin() {
 
-    var configuration = loadConfig("config.yml", "config.yml")
-    var currencies = loadConfig("currencies.yml", "currencies.yml")
-    var lang = loadConfig("lang.yml", "lang.yml")
+    lateinit var configuration: FileConfiguration
+    var currencies = loadCustomConfig("currencies.yml", "currencies.yml")
+    var lang = loadCustomConfig("lang.yml", "lang.yml")
     override fun onLoad() {
         CommandAPI.onLoad(CommandAPIBukkitConfig(this))
+        saveDefaultConfig()
     }
 
     override fun onEnable() {
         BaseCommands(this)
-
+        configuration = config
         ServiceRegistry.INSTANCE.registerService(
             EconomyProvider::class.java,
             TreasuryProvider(
@@ -82,7 +83,7 @@ class PaperPlugin : JavaPlugin() {
         CommandAPI.onDisable()
     }
 
-    private fun loadConfig(@NotNull file: String, @NotNull fallbackFile: String): FileConfiguration {
+    private fun loadCustomConfig(@NotNull file: String, @NotNull fallbackFile: String): FileConfiguration {
         try {
             val configFile = File(dataFolder, file)
             var defaultConfigStream: InputStream? = getResource(file)
