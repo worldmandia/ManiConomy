@@ -31,12 +31,7 @@ class MongoDBAPI<T>(dataBase: DataBase<T>, tClass: Class<T>, dbName: String, dbC
     }
 
     override fun getObject(fieldId: String, fieldValue: Any): T? {
-        if (fieldValue is Long) {
-            return collection.find(Filters.eq(fieldId, fieldValue)).first()
-        } else if (fieldValue is String) {
-            return collection.find(Filters.eq(fieldId, fieldValue)).first()
-        }
-        return null
+        return collection.find(Filters.eq(fieldId, fieldValue)).first()
     }
 
     override fun getAllObjects(): Set<T> {
