@@ -1,6 +1,10 @@
 package cc.worldmandia.database.objects
 
 class TreasuryDBCurrency(
-    id: String,
-    balance: String
-)
+    val id: String,
+    var balance: String
+) {
+    override fun toString(): String {
+        return "$id:$balance"
+    }
+}

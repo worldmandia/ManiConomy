@@ -19,11 +19,18 @@ class TreasuryNonPlayerAccount(
     private val utils: TreasuryUtils
 ) : NonPlayerAccount {
     override fun getName(): Optional<String> {
-        return Optional.ofNullable(context.name)
+        return Optional.ofNullable(utils.bankDataBase.getObject("identifier", context.identifier)?.name)
     }
 
     override fun setName(name: String?): CompletableFuture<Boolean> {
-        TODO("Not yet implemented")
+        return CompletableFuture<Boolean>().completeAsync {
+            val account = utils.bankDataBase.getObject("identifier", context.identifier)
+            if (account != null) {
+                utils.bankDataBase.replaceObject("identifier", context.identifier, account)
+            } else {
+                false
+            }
+        }
     }
 
     override fun retrieveBalance(currency: Currency): CompletableFuture<BigDecimal> {
@@ -70,30 +77,47 @@ class TreasuryNonPlayerAccount(
     }
 
     override fun retrieveMemberIds(): CompletableFuture<MutableCollection<UUID>> {
-        TODO("Not yet implemented")
+        return CompletableFuture<MutableCollection<UUID>>().completeAsync { // TODO planned
+            mutableSetOf()
+        }
     }
 
     override fun isMember(player: UUID): CompletableFuture<Boolean> {
-        TODO("Not yet implemented")
+        return CompletableFuture<Boolean>().completeAsync { // TODO planned
+            true
+        }
     }
 
     override fun setPermissions(
         player: UUID,
         permissionsMap: MutableMap<AccountPermission, TriState>
     ): CompletableFuture<Boolean> {
-        TODO("Not yet implemented")
+        return CompletableFuture<Boolean>().completeAsync { // TODO planned
+            true
+        }
     }
 
     override fun retrievePermissions(player: UUID): CompletableFuture<MutableMap<AccountPermission, TriState>> {
-        TODO("Not yet implemented")
+        return CompletableFuture<MutableMap<AccountPermission, TriState>>().completeAsync { // TODO planned
+            mutableMapOf(
+                Pair(AccountPermission.MODIFY_PERMISSIONS, TriState.TRUE),
+                Pair(AccountPermission.DEPOSIT, TriState.TRUE),
+                Pair(AccountPermission.WITHDRAW, TriState.TRUE),
+                Pair(AccountPermission.BALANCE, TriState.TRUE)
+            )
+        }
     }
 
     override fun retrievePermissionsMap(): CompletableFuture<MutableMap<UUID, MutableMap<AccountPermission, TriState>>> {
-        TODO("Not yet implemented")
+        return CompletableFuture<MutableMap<UUID, MutableMap<AccountPermission, TriState>>>().completeAsync { // TODO planned
+            mutableMapOf()
+        }
     }
 
     override fun hasPermissions(player: UUID, vararg permissions: AccountPermission): CompletableFuture<TriState> {
-        TODO("Not yet implemented")
+        return CompletableFuture<TriState>().completeAsync { // TODO planned
+            TriState.TRUE
+        }
     }
 
     override fun identifier(): NamespacedKey {

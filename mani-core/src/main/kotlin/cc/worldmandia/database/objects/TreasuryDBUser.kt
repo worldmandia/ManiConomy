@@ -7,6 +7,5 @@ class TreasuryDBUser(
     var objectId: String,
     var name: String?,
     var uuid: String,
-    var transactionDBHistoryId: String,
-    var currency: List<TreasuryDBCurrency>,
+    var currency: List<TreasuryDBCurrency>
 )
