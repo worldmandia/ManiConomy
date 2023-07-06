@@ -14,6 +14,7 @@ class TreasuryDBCurrency(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var objectId: String = "",
-    var id: String = "",
+    var currencyId: String = "",
+    var accountId: String = "",
     var balance: String = "-1"
 )
