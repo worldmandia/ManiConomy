@@ -19,9 +19,9 @@ class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: St
         val hibernateProperties = mapOf(
             Environment.DIALECT to "org.hibernate.dialect.H2Dialect",
             Environment.DRIVER to "org.h2.Driver",
-            Environment.URL to "jdbc:h2:/${dataBase.dbUrlOrPath}/$dbName;DB_CLOSE_DELAY=-1",
+            Environment.URL to "jdbc:h2:file:./${dataBase.dbUrlOrPath}/$dbName;DB_CLOSE_DELAY=-1",
             Environment.SHOW_SQL to "true",
-            Environment.HBM2DDL_AUTO to "create-drop"
+            Environment.HBM2DDL_AUTO to "update"
         )
 
         val serviceRegistry = StandardServiceRegistryBuilder()
