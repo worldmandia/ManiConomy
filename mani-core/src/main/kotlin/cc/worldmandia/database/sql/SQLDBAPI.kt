@@ -10,7 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder
 import org.hibernate.cfg.Environment
 
 
-class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: String, dbCollection: String) :
+class SQLDBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: String, dbCollection: String) :
     DataBaseAPI<T> {
     private val sessionFactory: SessionFactory
     private val session: Session
@@ -20,7 +20,7 @@ class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: St
             Environment.DIALECT to "org.hibernate.dialect.H2Dialect",
             Environment.DRIVER to "org.h2.Driver",
             Environment.URL to "jdbc:h2:file:./${dataBase.dbUrlOrPath}/$dbName;DB_CLOSE_DELAY=-1",
-            Environment.SHOW_SQL to "true",
+            Environment.SHOW_SQL to "false",
             Environment.HBM2DDL_AUTO to "update"
         )
 
@@ -39,12 +39,15 @@ class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: St
     }
 
     override fun getObject(fieldId: String, fieldValue: Any): T? {
-        return session.createQuery("FROM ${tClass.simpleName} WHERE $fieldId = :fieldValue", tClass).uniqueResult()
+        val query = session.createQuery("FROM ${tClass.simpleName} WHERE $fieldId = :value", tClass)
+        query.setParameter("value", fieldValue)
+        return query.uniqueResult()
     }
 
     override fun removeObject(fieldId: String, fieldValue: Any): Boolean {
-        val result =
-            session.createQuery("FROM ${tClass.simpleName} WHERE $fieldId = :fieldValue", tClass).uniqueResult()
+        val query = session.createQuery("FROM ${tClass.simpleName} WHERE $fieldId = :value", tClass)
+        query.setParameter("value", fieldValue)
+        val result = query.uniqueResult()
         if (result != null) {
             session.remove(result)
             return true
@@ -57,8 +60,8 @@ class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: St
     }
 
     override fun contains(fieldId: String, fieldValue: Any): Boolean {
-        return session.createQuery("FROM ${tClass.simpleName} WHERE $fieldId = :fieldValue", tClass)
-            .uniqueResult() != null
+        val query = session.createQuery("FROM ${tClass.simpleName} WHERE $fieldId = :value", tClass)
+        return query.setParameter("value", fieldValue).uniqueResult() != null
     }
 
     override fun replaceObject(fieldId: String, fieldValue: Any, updateData: T): Boolean {
@@ -67,8 +70,13 @@ class H2DBAPI<T>(dataBase: DataBase<T>, private val tClass: Class<T>, dbName: St
     }
 
     override fun createObject(newObject: T): Boolean {
-        session.persist(newObject)
-        return true
+        return try {
+            session.save(newObject)
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 
 }

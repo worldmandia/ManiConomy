@@ -26,6 +26,8 @@ import java.math.BigDecimal
 class PaperPlugin : JavaPlugin() {
 
     var configuration = loadConfig("config.yml", "config.yml")
+    var currencies = loadConfig("currencies.yml", "currencies.yml")
+    var lang = loadConfig("lang.yml", "lang.yml")
     override fun onLoad() {
         CommandAPI.onLoad(CommandAPIBukkitConfig(this))
     }
@@ -38,8 +40,8 @@ class PaperPlugin : JavaPlugin() {
             TreasuryProvider(TreasuryUtils(mutableSetOf(
                 TreasuryCurrency("test", true, mutableMapOf(), BigDecimal(100), 3, BigDecimal(0.5), "$") // for test
                 // TODO From config Currencies
-            ), DataBase(dataFolder.path, DataBaseType.H2, TreasuryDBUser::class.java, "testDB", "").dataBaseAPI
-                , DataBase(dataFolder.path, DataBaseType.H2, TreasuryDBBank::class.java, "testDBank", "").dataBaseAPI)),
+            ), DataBase(dataFolder.path, DataBaseType.SQL, TreasuryDBUser::class.java, "testDB", "").dataBaseAPI
+                , DataBase(dataFolder.path, DataBaseType.SQL, TreasuryDBBank::class.java, "testDBank", "").dataBaseAPI)),
             this.name,
             ServicePriority.NORMAL
         )

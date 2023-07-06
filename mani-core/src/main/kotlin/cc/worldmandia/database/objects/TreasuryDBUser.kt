@@ -17,4 +17,8 @@ class TreasuryDBUser(
     var uuid: String? = null,
     @OneToMany(cascade = [CascadeType.ALL])
     var currency: List<TreasuryDBCurrency> = listOf()
-)
+) {
+    override fun toString(): String {
+        return "TreasuryDBUser(objectId=$objectId, name=$name, uuid=$uuid, currency=$currency)"
+    }
+}

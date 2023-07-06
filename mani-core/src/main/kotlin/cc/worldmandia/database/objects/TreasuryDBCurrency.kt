@@ -17,4 +17,8 @@ class TreasuryDBCurrency(
     var accountId: String? = null,
     @Column(columnDefinition = "VARCHAR(255)")
     var balance: String? = null
-)
+) {
+    override fun toString(): String {
+        return "TreasuryDBCurrency(objectId=$objectId, currencyId=$currencyId, accountId=$accountId, balance=$balance)"
+    }
+}
