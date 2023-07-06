@@ -37,11 +37,42 @@ class PaperPlugin : JavaPlugin() {
 
         ServiceRegistry.INSTANCE.registerService(
             EconomyProvider::class.java,
-            TreasuryProvider(TreasuryUtils(mutableSetOf(
-                TreasuryCurrency("test", true, mutableMapOf(), BigDecimal(100), 3, BigDecimal(0.5), "$") // for test
-                // TODO From config Currencies
-            ), DataBase(dataFolder.path, DataBaseType.SQL, TreasuryDBUser::class.java, "testDB", "").dataBaseAPI
-                , DataBase(dataFolder.path, DataBaseType.SQL, TreasuryDBBank::class.java, "testDBank", "").dataBaseAPI)),
+            TreasuryProvider(
+                TreasuryUtils(
+                    mutableSetOf(
+                        TreasuryCurrency(
+                            "test",
+                            true,
+                            mutableMapOf(),
+                            BigDecimal(100),
+                            3,
+                            BigDecimal(0.5),
+                            "$"
+                        ) // for test
+                        // TODO From config Currencies
+                    ),
+                    DataBase(
+                        "jdbc:h2:file:",
+                        dataFolder.path,
+                        "",
+                        "",
+                        DataBaseType.SQL,
+                        TreasuryDBUser::class.java,
+                        "testDB",
+                        ""
+                    ).dataBaseAPI,
+                    DataBase(
+                        "jdbc:h2:file:",
+                        dataFolder.path,
+                        "",
+                        "",
+                        DataBaseType.SQL,
+                        TreasuryDBBank::class.java,
+                        "testDBank",
+                        ""
+                    ).dataBaseAPI
+                )
+            ),
             this.name,
             ServicePriority.NORMAL
         )

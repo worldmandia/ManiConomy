@@ -51,10 +51,15 @@ class VelocityPlugin {
 
         ServiceRegistry.INSTANCE.registerService(
             EconomyProvider::class.java,
-            TreasuryProvider(TreasuryUtils(mutableSetOf(
-                // TODO From config Currencies
-            ), DataBase("", DataBaseType.MONGO, TreasuryDBUser::class.java, "", "").dataBaseAPI
-                , DataBase("", DataBaseType.MONGO, TreasuryDBBank::class.java, "", "").dataBaseAPI)),
+            TreasuryProvider(
+                TreasuryUtils(
+                    mutableSetOf(
+                        // TODO From config Currencies
+                    ),
+                    DataBase("jdbc:h2:file:", "","", "", DataBaseType.SQL, TreasuryDBUser::class.java, "", "").dataBaseAPI,
+                    DataBase("jdbc:h2:file:", "","", "", DataBaseType.SQL, TreasuryDBBank::class.java, "", "").dataBaseAPI
+                )
+            ),
             "ManiConomy velocity",
             ServicePriority.NORMAL
         )
