@@ -16,10 +16,10 @@ class TreasuryDBTransactionHistory(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var objectId: Long = 0,
-    amount: String = "",
-    currencyId: String = "",
-    type: EconomyTransactionType? = null,
-    cause: String = "",
-    reason: String? = "",
-    importance: EconomyTransactionImportance? = null
+    var amount: String = "",
+    var currencyId: String = "",
+    var type: EconomyTransactionType? = null,
+    var cause: String = "",
+    var reason: String? = "",
+    var importance: EconomyTransactionImportance? = null
 )
