@@ -34,16 +34,19 @@ class TreasuryPlayerAccount(
         return CompletableFuture.supplyAsync {
             val user = utils.userDataBase.getObject("uuid", context.uniqueId.toString())
             if (user != null) {
-                val currency = user.currency.firstOrNull { it.currencyId == economyTransaction.currencyId }
-                if (currency != null) {
-                    val currentBalance = BigDecimal(currency.balance)
+                val currencyToUpdate = user.currency.firstOrNull { it.currencyId == economyTransaction.currencyId }
+                if (currencyToUpdate != null) {
+                    val currentBalance = BigDecimal(currencyToUpdate.balance)
                     val newBalance = when (economyTransaction.type) {
                         EconomyTransactionType.WITHDRAWAL -> currentBalance.subtract(economyTransaction.amount)
                         EconomyTransactionType.DEPOSIT -> currentBalance.add(economyTransaction.amount)
                         EconomyTransactionType.SET -> economyTransaction.amount
                     }
 
-                    currency.balance = newBalance.toPlainString()
+                    user.currency.remove(currencyToUpdate)
+                    currencyToUpdate.balance = newBalance.toPlainString()
+                    user.currency.add(currencyToUpdate)
+
                     utils.userDataBase.replaceObject("uuid", context.uniqueId.toString(), user)
                     newBalance
                 } else {

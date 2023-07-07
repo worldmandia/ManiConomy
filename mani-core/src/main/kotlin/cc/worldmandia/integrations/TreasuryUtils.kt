@@ -11,7 +11,7 @@ class TreasuryUtils(
     val bankDataBase: DataBaseAPI<TreasuryDBBank>
 ) {
     init {
-        userDataBase.createObject(TreasuryDBUser(0, "test", "testUUID", listOf(TreasuryDBCurrency(0, "id", "accId", "100"))))
+        userDataBase.createObject(TreasuryDBUser(0, "test", "testUUID", mutableSetOf(TreasuryDBCurrency(0, "id", "accId", "100"))))
         println(userDataBase.getObject("name", "test"))
         println(userDataBase.getAllObjects())
     }
