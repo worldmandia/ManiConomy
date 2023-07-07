@@ -8,6 +8,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
     implementation("dev.jorel:commandapi-bukkit-shade:9.0.4-SNAPSHOT")
     implementation("dev.jorel:commandapi-bukkit-kotlin:9.0.4-SNAPSHOT")
+    compileOnly("net.kyori:adventure-platform-bukkit:4.3.0")
 }
 
 tasks {
