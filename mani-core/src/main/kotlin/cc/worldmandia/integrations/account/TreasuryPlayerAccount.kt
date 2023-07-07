@@ -21,7 +21,12 @@ class TreasuryPlayerAccount(
 
     override fun retrieveBalance(currency: Currency): CompletableFuture<BigDecimal> {
         return CompletableFuture<BigDecimal>().completeAsync {
-            BigDecimal(0) // TODO
+            BigDecimal(
+                utils.userDataBase.getObject(
+                    "uuid",
+                    context.uniqueId.toString()
+                )?.currency?.first { it.currencyId == currency.identifier }?.balance ?: "-1"
+            )
         }
     }
 
@@ -31,12 +36,15 @@ class TreasuryPlayerAccount(
                 EconomyTransactionType.WITHDRAWAL -> {
                     BigDecimal(0) // TODO
                 }
+
                 EconomyTransactionType.DEPOSIT -> {
                     BigDecimal(0)// TODO
                 }
+
                 EconomyTransactionType.SET -> {
                     BigDecimal(0)// TODO
                 }
+
                 else -> {
                     BigDecimal(-1)
                 }
@@ -46,12 +54,15 @@ class TreasuryPlayerAccount(
 
     override fun deleteAccount(): CompletableFuture<Boolean> {
         return CompletableFuture<Boolean>().completeAsync {
-            true // TODO
+            utils.userDataBase.removeObject("uuid", context.uniqueId.toString())
         }
     }
 
     override fun retrieveHeldCurrencies(): CompletableFuture<MutableCollection<String>> {
-        TODO("Not yet implemented")
+        return CompletableFuture<MutableCollection<String>>().completeAsync {
+            utils.userDataBase.getObject("uuid", context.uniqueId.toString())?.currency?.map { it.currencyId }
+                ?.toMutableList() ?: mutableListOf()
+        }
     }
 
     override fun retrieveTransactionHistory(
