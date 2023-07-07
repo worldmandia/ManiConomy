@@ -20,7 +20,7 @@ class TreasuryPlayerAccount(
     }
 
     override fun retrieveBalance(currency: Currency): CompletableFuture<BigDecimal> {
-        return CompletableFuture<BigDecimal>().completeAsync {
+        return CompletableFuture.supplyAsync {
             BigDecimal(
                 utils.userDataBase.getObject(
                     "uuid",
@@ -31,35 +31,38 @@ class TreasuryPlayerAccount(
     }
 
     override fun doTransaction(economyTransaction: EconomyTransaction): CompletableFuture<BigDecimal> {
-        return CompletableFuture<BigDecimal>().completeAsync {
-            when (economyTransaction.type) {
-                EconomyTransactionType.WITHDRAWAL -> {
-                    BigDecimal(0) // TODO
-                }
+        return CompletableFuture.supplyAsync {
+            val user = utils.userDataBase.getObject("uuid", context.uniqueId.toString())
+            if (user != null) {
+                val currency = user.currency.firstOrNull { it.currencyId == economyTransaction.currencyId }
+                if (currency != null) {
+                    val currentBalance = BigDecimal(currency.balance)
+                    val newBalance = when (economyTransaction.type) {
+                        EconomyTransactionType.WITHDRAWAL -> currentBalance.subtract(economyTransaction.amount)
+                        EconomyTransactionType.DEPOSIT -> currentBalance.add(economyTransaction.amount)
+                        EconomyTransactionType.SET -> economyTransaction.amount
+                    }
 
-                EconomyTransactionType.DEPOSIT -> {
-                    BigDecimal(0)// TODO
-                }
-
-                EconomyTransactionType.SET -> {
-                    BigDecimal(0)// TODO
-                }
-
-                else -> {
+                    currency.balance = newBalance.toPlainString()
+                    utils.userDataBase.replaceObject("uuid", context.uniqueId.toString(), user)
+                    newBalance
+                } else {
                     BigDecimal(-1)
                 }
+            } else {
+                BigDecimal(-1)
             }
         }
     }
 
     override fun deleteAccount(): CompletableFuture<Boolean> {
-        return CompletableFuture<Boolean>().completeAsync {
+        return CompletableFuture.supplyAsync {
             utils.userDataBase.removeObject("uuid", context.uniqueId.toString())
         }
     }
 
     override fun retrieveHeldCurrencies(): CompletableFuture<MutableCollection<String>> {
-        return CompletableFuture<MutableCollection<String>>().completeAsync {
+        return CompletableFuture.supplyAsync {
             utils.userDataBase.getObject("uuid", context.uniqueId.toString())?.currency?.map { it.currencyId }
                 ?.toMutableList() ?: mutableListOf()
         }

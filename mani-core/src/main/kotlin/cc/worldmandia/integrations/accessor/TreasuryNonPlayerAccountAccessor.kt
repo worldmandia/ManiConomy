@@ -11,14 +11,14 @@ class TreasuryNonPlayerAccountAccessor(
     private val utils: TreasuryUtils
 ) : NonPlayerAccountAccessor() {
     override fun getOrCreate(context: NonPlayerAccountCreateContext): CompletableFuture<NonPlayerAccount> {
-        return CompletableFuture<NonPlayerAccount>().completeAsync {
+        return CompletableFuture.supplyAsync {
             if (!utils.bankDataBase.contains("identifier", context.identifier)) {
                 utils.bankDataBase.createObject(
                     TreasuryDBBank(
                         0,
                         context.identifier.toString(),
                         context.name,
-                        listOf()
+                        mutableSetOf()
                     )
                 )
             }

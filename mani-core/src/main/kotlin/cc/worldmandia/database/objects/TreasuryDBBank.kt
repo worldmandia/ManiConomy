@@ -14,5 +14,5 @@ class TreasuryDBBank(
     var identifier: String = "",
     var name: String? = null,
     @OneToMany(cascade = [CascadeType.ALL])
-    var currency: List<TreasuryDBCurrency> = listOf()
+    var currency: MutableSet<TreasuryDBCurrency> = mutableSetOf()
 )

@@ -18,19 +18,19 @@ class TreasuryProvider(
     }
 
     override fun hasAccount(accountData: AccountData): CompletableFuture<Boolean> {
-        return CompletableFuture<Boolean>().completeAsync {
+        return CompletableFuture.supplyAsync {
             true // TODO
         }
     }
 
     override fun retrievePlayerAccountIds(): CompletableFuture<MutableCollection<UUID>> {
-        return CompletableFuture<MutableCollection<UUID>>().completeAsync {
+        return CompletableFuture.supplyAsync {
             mutableSetOf() // TODO
         }
     }
 
     override fun retrieveNonPlayerAccountIds(): CompletableFuture<MutableCollection<NamespacedKey>> {
-        return CompletableFuture<MutableCollection<NamespacedKey>>().completeAsync {
+        return CompletableFuture.supplyAsync {
             mutableSetOf() // TODO
         }
     }
@@ -50,14 +50,14 @@ class TreasuryProvider(
     }
 
     override fun registerCurrency(currency: Currency): CompletableFuture<TriState> {
-        return CompletableFuture<TriState>().completeAsync {
+        return CompletableFuture.supplyAsync {
             utils.currency.add(currency as TreasuryCurrency)
             TriState.TRUE
         }
     }
 
     override fun unregisterCurrency(currency: Currency): CompletableFuture<TriState> {
-        return CompletableFuture<TriState>().completeAsync {
+        return CompletableFuture.supplyAsync {
             utils.currency.remove(currency as TreasuryCurrency)
             TriState.TRUE
         }

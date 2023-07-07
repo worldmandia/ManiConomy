@@ -11,14 +11,14 @@ class TreasuryPlayerAccountAccessor(
     private val utils: TreasuryUtils
 ) : PlayerAccountAccessor() {
     override fun getOrCreate(context: PlayerAccountCreateContext): CompletableFuture<PlayerAccount> {
-        return CompletableFuture<PlayerAccount>().completeAsync {
+        return CompletableFuture.supplyAsync {
             if (!utils.userDataBase.contains("uuid", context.uniqueId.toString())) {
                 utils.userDataBase.createObject(
                     TreasuryDBUser(
                         0,
                         "${context.uniqueId}-maniconomy",
                         context.uniqueId.toString(),
-                        listOf()
+                        mutableSetOf()
                     )
                 )
             }

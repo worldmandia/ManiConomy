@@ -52,7 +52,7 @@ class TreasuryCurrency(
     }
 
     override fun parse(formattedAmount: String, locale: Locale?): CompletableFuture<BigDecimal> {
-        return CompletableFuture<BigDecimal>().completeAsync {
+        return CompletableFuture.supplyAsync {
             BigDecimal(formattedAmount.replace(localeDecimalMap.getOrDefault(locale, '$'), ' ', true).trim())
         }
     }

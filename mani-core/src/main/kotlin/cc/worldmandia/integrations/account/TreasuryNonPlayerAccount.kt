@@ -23,7 +23,7 @@ class TreasuryNonPlayerAccount(
     }
 
     override fun setName(name: String?): CompletableFuture<Boolean> {
-        return CompletableFuture<Boolean>().completeAsync {
+        return CompletableFuture.supplyAsync {
             val account = utils.bankDataBase.getObject("identifier", context.identifier)
             if (account != null) {
                 utils.bankDataBase.replaceObject("identifier", context.identifier, account)
@@ -34,13 +34,13 @@ class TreasuryNonPlayerAccount(
     }
 
     override fun retrieveBalance(currency: Currency): CompletableFuture<BigDecimal> {
-        return CompletableFuture<BigDecimal>().completeAsync {
+        return CompletableFuture.supplyAsync {
             BigDecimal(0) // TODO
         }
     }
 
     override fun doTransaction(economyTransaction: EconomyTransaction): CompletableFuture<BigDecimal> {
-        return CompletableFuture<BigDecimal>().completeAsync {
+        return CompletableFuture.supplyAsync {
             when (economyTransaction.type) {
                 EconomyTransactionType.WITHDRAWAL -> {
                     BigDecimal(0) // TODO
@@ -59,7 +59,7 @@ class TreasuryNonPlayerAccount(
     }
 
     override fun deleteAccount(): CompletableFuture<Boolean> {
-        return CompletableFuture<Boolean>().completeAsync {
+        return CompletableFuture.supplyAsync {
             true // TODO
         }
     }
@@ -77,13 +77,13 @@ class TreasuryNonPlayerAccount(
     }
 
     override fun retrieveMemberIds(): CompletableFuture<MutableCollection<UUID>> {
-        return CompletableFuture<MutableCollection<UUID>>().completeAsync { // TODO planned
+        return CompletableFuture.supplyAsync { // TODO planned
             mutableSetOf()
         }
     }
 
     override fun isMember(player: UUID): CompletableFuture<Boolean> {
-        return CompletableFuture<Boolean>().completeAsync { // TODO planned
+        return CompletableFuture.supplyAsync { // TODO planned
             true
         }
     }
@@ -92,13 +92,13 @@ class TreasuryNonPlayerAccount(
         player: UUID,
         permissionsMap: MutableMap<AccountPermission, TriState>
     ): CompletableFuture<Boolean> {
-        return CompletableFuture<Boolean>().completeAsync { // TODO planned
+        return CompletableFuture.supplyAsync { // TODO planned
             true
         }
     }
 
     override fun retrievePermissions(player: UUID): CompletableFuture<MutableMap<AccountPermission, TriState>> {
-        return CompletableFuture<MutableMap<AccountPermission, TriState>>().completeAsync { // TODO planned
+        return CompletableFuture.supplyAsync { // TODO planned
             mutableMapOf(
                 Pair(AccountPermission.MODIFY_PERMISSIONS, TriState.TRUE),
                 Pair(AccountPermission.DEPOSIT, TriState.TRUE),
@@ -109,13 +109,13 @@ class TreasuryNonPlayerAccount(
     }
 
     override fun retrievePermissionsMap(): CompletableFuture<MutableMap<UUID, MutableMap<AccountPermission, TriState>>> {
-        return CompletableFuture<MutableMap<UUID, MutableMap<AccountPermission, TriState>>>().completeAsync { // TODO planned
+        return CompletableFuture.supplyAsync { // TODO planned
             mutableMapOf()
         }
     }
 
     override fun hasPermissions(player: UUID, vararg permissions: AccountPermission): CompletableFuture<TriState> {
-        return CompletableFuture<TriState>().completeAsync { // TODO planned
+        return CompletableFuture.supplyAsync { // TODO planned
             TriState.TRUE
         }
     }
