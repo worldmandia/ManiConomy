@@ -13,6 +13,7 @@ dependencies {
     kapt("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
     implementation("dev.jorel:commandapi-velocity-shade:9.0.4-SNAPSHOT")
     implementation("dev.jorel:commandapi-velocity-kotlin:9.0.4-SNAPSHOT")
+    implementation("net.deltapvp.libby:libby-velocity:2.0.4-SNAPSHOT")
 }
 
 tasks {
