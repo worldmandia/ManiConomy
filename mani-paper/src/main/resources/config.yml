@@ -1,2 +1,24 @@
 # ManiConomy config file
-first-value: true
+# For player
+player-db-url: "jdbc:h2:file:"
+player-db-type: "sql"
+player-db-user: "" # user and pass need only for remote DataBase
+player-db-pass: ""
+player-db-name: "" # Name of DataBase
+player-db-collection: "" # Need for MongoDB
+# For non player
+non-player-db-url: "jdbc:h2:file:"
+non-player-db-type: "sql"
+non-player-db-user: "" # user and pass need only for remote DataBase
+non-player-db-pass: ""
+non-player-db-name: "" # Name of DataBase
+non-player-db-collection: "" # Need for MongoDB
+# For Transaction History
+transaction-history-enable: false # if you need save it
+transaction-history-level: "NORMAL" # min level for save LOW, NORMAL, HIGH
+transaction-history-db-url: "jdbc:h2:file:"
+transaction-history-db-type: "sql"
+transaction-history-db-user: "" # user and pass need only for remote DataBase
+transaction-history-db-pass: ""
+transaction-history-db-name: "" # Name of DataBase
+transaction-history-db-collection: "" # Need for MongoDB

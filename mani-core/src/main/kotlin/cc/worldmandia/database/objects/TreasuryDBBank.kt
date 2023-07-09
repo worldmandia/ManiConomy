@@ -15,4 +15,8 @@ class TreasuryDBBank(
     var name: String? = null,
     @OneToMany(cascade = [CascadeType.ALL])
     var currency: MutableSet<TreasuryDBCurrency> = mutableSetOf()
-)
+) {
+    override fun toString(): String {
+        return "TreasuryDBBank(objectId=$objectId, identifier='$identifier', name=$name, currency=$currency)"
+    }
+}

@@ -41,31 +41,43 @@ class TreasuryNonPlayerAccount(
 
     override fun doTransaction(economyTransaction: EconomyTransaction): CompletableFuture<BigDecimal> {
         return CompletableFuture.supplyAsync {
-            when (economyTransaction.type) {
-                EconomyTransactionType.WITHDRAWAL -> {
-                    BigDecimal(0) // TODO
-                }
-                EconomyTransactionType.DEPOSIT -> {
-                    BigDecimal(0)// TODO
-                }
-                EconomyTransactionType.SET -> {
-                    BigDecimal(0)// TODO
-                }
-                else -> {
+            val bank = utils.bankDataBase.getObject("identifier", context.identifier.toString())
+            if (bank != null) {
+                val currencyToUpdate = bank.currency.firstOrNull { it.currencyId == economyTransaction.currencyId }
+                if (currencyToUpdate != null) {
+                    val currentBalance = BigDecimal(currencyToUpdate.balance)
+                    val newBalance = when (economyTransaction.type) {
+                        EconomyTransactionType.WITHDRAWAL -> currentBalance.subtract(economyTransaction.amount)
+                        EconomyTransactionType.DEPOSIT -> currentBalance.add(economyTransaction.amount)
+                        EconomyTransactionType.SET -> economyTransaction.amount
+                    }
+
+                    bank.currency.remove(currencyToUpdate)
+                    currencyToUpdate.balance = newBalance.toPlainString()
+                    bank.currency.add(currencyToUpdate)
+
+                    utils.bankDataBase.replaceObject("identifier", context.identifier.toString(), bank)
+                    newBalance
+                } else {
                     BigDecimal(-1)
                 }
+            } else {
+                BigDecimal(-1)
             }
         }
     }
 
     override fun deleteAccount(): CompletableFuture<Boolean> {
         return CompletableFuture.supplyAsync {
-            true // TODO
+            utils.bankDataBase.removeObject("identifier", context.identifier.toString())
         }
     }
 
     override fun retrieveHeldCurrencies(): CompletableFuture<MutableCollection<String>> {
-        TODO("Not yet implemented")
+        return CompletableFuture.supplyAsync {
+            utils.bankDataBase.getObject("identifier", context.identifier.toString())?.currency?.map { it.currencyId }
+                    ?.toMutableList() ?: mutableListOf()
+        }
     }
 
     override fun retrieveTransactionHistory(
@@ -73,7 +85,12 @@ class TreasuryNonPlayerAccount(
         from: Temporal,
         to: Temporal
     ): CompletableFuture<MutableCollection<EconomyTransaction>> {
-        TODO("Not yet implemented")
+        return CompletableFuture.supplyAsync {
+            if (utils.transactionDataBase == null) {
+                mutableListOf<EconomyTransaction>()
+            }
+            mutableListOf()
+        }
     }
 
     override fun retrieveMemberIds(): CompletableFuture<MutableCollection<UUID>> {

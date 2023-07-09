@@ -76,7 +76,12 @@ class TreasuryPlayerAccount(
         from: Temporal,
         to: Temporal
     ): CompletableFuture<MutableCollection<EconomyTransaction>> {
-        TODO("Not yet implemented")
+        return CompletableFuture.supplyAsync {
+            if (utils.transactionDataBase == null) {
+                mutableListOf<EconomyTransaction>()
+            }
+            mutableListOf()
+        }
     }
 
     override fun identifier(): UUID {

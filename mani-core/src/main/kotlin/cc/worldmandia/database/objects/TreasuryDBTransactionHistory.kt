@@ -22,4 +22,8 @@ class TreasuryDBTransactionHistory(
     var cause: String = "",
     var reason: String? = "",
     var importance: EconomyTransactionImportance? = null
-)
+) {
+    override fun toString(): String {
+        return "TreasuryDBTransactionHistory(objectId=$objectId, amount='$amount', currencyId='$currencyId', type=$type, cause='$cause', reason=$reason, importance=$importance)"
+    }
+}
