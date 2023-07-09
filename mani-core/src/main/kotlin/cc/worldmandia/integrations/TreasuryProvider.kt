@@ -19,19 +19,23 @@ class TreasuryProvider(
 
     override fun hasAccount(accountData: AccountData): CompletableFuture<Boolean> {
         return CompletableFuture.supplyAsync {
-            true // TODO
+            if (accountData.isPlayerAccount) {
+                utils.userDataBase.contains("uuid", accountData.playerIdentifier.get().toString())
+            } else {
+                utils.bankDataBase.contains("identifier", accountData.nonPlayerIdentifier.get().toString())
+            }
         }
     }
 
     override fun retrievePlayerAccountIds(): CompletableFuture<MutableCollection<UUID>> {
         return CompletableFuture.supplyAsync {
-            mutableSetOf() // TODO
+            utils.userDataBase.getAllObjects().map { UUID.fromString(it.uuid) }.toMutableSet()
         }
     }
 
     override fun retrieveNonPlayerAccountIds(): CompletableFuture<MutableCollection<NamespacedKey>> {
         return CompletableFuture.supplyAsync {
-            mutableSetOf() // TODO
+            utils.bankDataBase.getAllObjects().map { NamespacedKey.fromString(it.identifier) }.toMutableSet()
         }
     }
 
@@ -45,8 +49,8 @@ class TreasuryProvider(
             .findFirst().map { it as Currency }
     }
 
-    override fun getCurrencies(): MutableSet<Currency> {
-        return utils.currency.toHashSet()
+    override fun getCurrencies(): MutableSet<TreasuryCurrency> {
+        return utils.currency
     }
 
     override fun registerCurrency(currency: Currency): CompletableFuture<TriState> {
@@ -58,8 +62,15 @@ class TreasuryProvider(
 
     override fun unregisterCurrency(currency: Currency): CompletableFuture<TriState> {
         return CompletableFuture.supplyAsync {
-            utils.currency.remove(currency as TreasuryCurrency)
-            TriState.TRUE
+            val currencyOpt = utils.currency.stream()
+                    .filter { it.identifier == currency.identifier }
+                    .findFirst()
+            if (currencyOpt.isPresent) {
+                utils.currency.remove(currencyOpt.get())
+                TriState.TRUE
+            } else {
+                TriState.FALSE
+            }
         }
     }
 
