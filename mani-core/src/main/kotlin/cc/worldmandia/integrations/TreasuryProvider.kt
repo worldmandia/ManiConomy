@@ -55,8 +55,15 @@ class TreasuryProvider(
 
     override fun registerCurrency(currency: Currency): CompletableFuture<TriState> {
         return CompletableFuture.supplyAsync {
-            utils.currency.add(currency as TreasuryCurrency)
-            TriState.TRUE
+            val currencyOpt = utils.currency.stream()
+                    .filter { it.identifier == currency.identifier }
+                    .findFirst()
+            if (!currencyOpt.isPresent) {
+                utils.currency.add(currency as TreasuryCurrency)
+                TriState.TRUE
+            } else {
+                TriState.FALSE
+            }
         }
     }
 
