@@ -16,5 +16,7 @@ class TreasuryDBMember(
         @OneToMany(cascade = [CascadeType.ALL])
         var accountPermissions: MutableSet<AccountPermission> = mutableSetOf()
 ) {
-
+    override fun toString(): String {
+        return "TreasuryDBMember(objectId=$objectId, uuid='$uuid', accountPermissions=$accountPermissions)"
+    }
 }

@@ -8,18 +8,19 @@ import me.lokka30.treasury.api.economy.account.accessor.NonPlayerAccountAccessor
 import java.util.concurrent.CompletableFuture
 
 class TreasuryNonPlayerAccountAccessor(
-    private val utils: TreasuryUtils
+        private val utils: TreasuryUtils
 ) : NonPlayerAccountAccessor() {
     override fun getOrCreate(context: NonPlayerAccountCreateContext): CompletableFuture<NonPlayerAccount> {
         return CompletableFuture.supplyAsync {
             if (!utils.bankDataBase.contains("identifier", context.identifier)) {
                 utils.bankDataBase.createObject(
-                    TreasuryDBBank(
-                        0,
-                        context.identifier.toString(),
-                        context.name,
-                        mutableSetOf()
-                    )
+                        TreasuryDBBank(
+                                0,
+                                context.identifier.toString(),
+                                context.name,
+                                mutableSetOf(),
+                                mutableSetOf()
+                        )
                 )
             }
             TreasuryNonPlayerAccount(context, utils)
