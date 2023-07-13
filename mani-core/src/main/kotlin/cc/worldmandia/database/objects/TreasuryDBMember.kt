@@ -3,7 +3,6 @@ package cc.worldmandia.database.objects
 import jakarta.persistence.*
 import lombok.AllArgsConstructor
 import lombok.NoArgsConstructor
-import me.lokka30.treasury.api.economy.account.AccountPermission
 
 @Entity
 @AllArgsConstructor
@@ -14,7 +13,7 @@ class TreasuryDBMember(
         var objectId: Long = 0,
         var uuid: String = "",
         @OneToMany(cascade = [CascadeType.ALL])
-        var accountPermissions: MutableSet<AccountPermission> = mutableSetOf()
+        var accountPermissions: MutableSet<TreasuryAccountPermission> = mutableSetOf()
 ) {
     override fun toString(): String {
         return "TreasuryDBMember(objectId=$objectId, uuid='$uuid', accountPermissions=$accountPermissions)"

@@ -130,16 +130,9 @@ class VelocityPlugin {
         )
         velocityLibraryManager.loadLibrary(
                 Library.builder()
-                        .groupId("org{}litote{}kmongo")
-                        .artifactId("kmongo-coroutine-serialization")
-                        .version("4.9.0")
-                        .build()
-        )
-        velocityLibraryManager.loadLibrary(
-                Library.builder()
                         .groupId("org{}mongodb")
                         .artifactId("mongodb-driver-sync")
-                        .version("4.10.1")
+                        .version("4.10.2")
                         .build()
         )
     }

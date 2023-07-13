@@ -94,14 +94,18 @@ class TreasuryNonPlayerAccount(
     }
 
     override fun retrieveMemberIds(): CompletableFuture<MutableCollection<UUID>> {
-        return CompletableFuture.supplyAsync { // TODO planned
-            mutableSetOf()
+        return CompletableFuture.supplyAsync {
+            utils.bankDataBase.getObject("identifier", context.identifier)?.members?.map { UUID.fromString(it.uuid) }
+                ?.toMutableSet() ?: mutableSetOf()
         }
     }
 
     override fun isMember(player: UUID): CompletableFuture<Boolean> {
-        return CompletableFuture.supplyAsync { // TODO planned
-            true
+        return CompletableFuture.supplyAsync {
+            val bank = utils.bankDataBase.getObject("identifier", context.identifier)
+            bank?.members?.first { it.uuid == player.toString() }
+
+            false
         }
     }
 
@@ -109,8 +113,12 @@ class TreasuryNonPlayerAccount(
         player: UUID,
         permissionsMap: MutableMap<AccountPermission, TriState>
     ): CompletableFuture<Boolean> {
-        return CompletableFuture.supplyAsync { // TODO planned
-            true
+        return CompletableFuture.supplyAsync {
+            val accountPermissions = utils.bankDataBase.getObject("identifier", context.identifier)?.members?.first { it.uuid == player.toString() }?.accountPermissions!!.first { it.bankId == context.identifier.toString() }
+            permissionsMap.forEach {
+                // TODO
+            }
+            false
         }
     }
 

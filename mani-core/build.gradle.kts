@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync
-    compileOnly("org.mongodb:mongodb-driver-sync:4.10.1")
+    compileOnly("org.mongodb:mongodb-driver-sync:4.10.2")
     // https://mvnrepository.com/artifact/org.litote.kmongo/kmongo-coroutine-serialization
     compileOnly("org.litote.kmongo:kmongo-coroutine-serialization:4.9.0")
     // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
