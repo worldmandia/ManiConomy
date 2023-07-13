@@ -35,7 +35,12 @@ class TreasuryNonPlayerAccount(
 
     override fun retrieveBalance(currency: Currency): CompletableFuture<BigDecimal> {
         return CompletableFuture.supplyAsync {
-            BigDecimal(0) // TODO
+            BigDecimal(
+                utils.userDataBase.getObject(
+                    "identifier",
+                    context.identifier.toString()
+                )?.currency?.first { it.currencyId == currency.identifier }?.balance ?: "-1"
+            )
         }
     }
 
