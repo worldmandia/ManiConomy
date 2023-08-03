@@ -34,10 +34,11 @@ import java.nio.file.Path
             Dependency(id = "treasury", optional = false)
         ]
 )
-class VelocityPlugin {
+class VelocityPlugin : ManiConomyPlugin {
     private lateinit var server: ProxyServer
     private lateinit var logger: Logger
     private lateinit var dataDirectory: Path
+    private lateinit var treasuryProvider: TreasuryProvider
 
     @Inject
     fun VelocityPlugin(server: ProxyServer, logger: Logger, @DataDirectory dataDirectory: Path) {
@@ -55,45 +56,47 @@ class VelocityPlugin {
         CommandAPI.onLoad(CommandAPIVelocityConfig(server))
         BaseCommands(this)
 
+        treasuryProvider = TreasuryProvider(
+            TreasuryUtils(
+                mutableSetOf(
+                    // TODO From config Currencies
+                ),
+                DataBase(
+                    "jdbc:h2:file:",
+                    "",
+                    "",
+                    "",
+                    DataBaseType.SQL,
+                    TreasuryDBUser::class.java,
+                    "",
+                    ""
+                ).dataBaseAPI,
+                DataBase(
+                    "jdbc:h2:file:",
+                    "",
+                    "",
+                    "",
+                    DataBaseType.SQL,
+                    TreasuryDBBank::class.java,
+                    "",
+                    ""
+                ).dataBaseAPI,
+                DataBase(
+                    "jdbc:h2:file:",
+                    "",
+                    "",
+                    "",
+                    DataBaseType.SQL,
+                    TreasuryDBTransactionHistory::class.java,
+                    "",
+                    ""
+                ).dataBaseAPI
+            )
+        )
+
         ServiceRegistry.INSTANCE.registerService(
                 EconomyProvider::class.java,
-                TreasuryProvider(
-                        TreasuryUtils(
-                                mutableSetOf(
-                                        // TODO From config Currencies
-                                ),
-                                DataBase(
-                                        "jdbc:h2:file:",
-                                        "",
-                                        "",
-                                        "",
-                                        DataBaseType.SQL,
-                                        TreasuryDBUser::class.java,
-                                        "",
-                                        ""
-                                ).dataBaseAPI,
-                                DataBase(
-                                        "jdbc:h2:file:",
-                                        "",
-                                        "",
-                                        "",
-                                        DataBaseType.SQL,
-                                        TreasuryDBBank::class.java,
-                                        "",
-                                        ""
-                                ).dataBaseAPI,
-                                DataBase(
-                                        "jdbc:h2:file:",
-                                        "",
-                                        "",
-                                        "",
-                                        DataBaseType.SQL,
-                                        TreasuryDBTransactionHistory::class.java,
-                                        "",
-                                        ""
-                                ).dataBaseAPI
-                        )
-                ),
+                treasuryProvider,
                 "ManiConomy velocity",
                 ServicePriority.NORMAL
         )
@@ -135,5 +138,9 @@ class VelocityPlugin {
                         .version("4.10.2")
                         .build()
         )
+    }
+
+    override fun getTreasuryProvider(): TreasuryProvider {
+        return treasuryProvider
     }
 }

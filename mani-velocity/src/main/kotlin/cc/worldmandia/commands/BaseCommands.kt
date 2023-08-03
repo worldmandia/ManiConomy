@@ -1,12 +1,12 @@
 package cc.worldmandia.commands
 
-import cc.worldmandia.VelocityPlugin
+import cc.worldmandia.ManiConomyPlugin
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import net.kyori.adventure.text.Component
 
 class BaseCommands(
-    plugin: VelocityPlugin
+    plugin: ManiConomyPlugin
 ) {
     init {
         commandTree("maniconomy") {
